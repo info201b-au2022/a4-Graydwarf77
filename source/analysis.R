@@ -81,14 +81,14 @@ get_year_jail_pop <- function() {
 
 # This function ... <todo:  update comment>
 plot_jail_pop_for_us <- function()  {
-  jail_pop_chart <- ggplot(data = get_year_jail_pop(), aes(x = year, y = country_jail_pop)) +
+  pop_chart_jail <- ggplot(data = get_year_jail_pop(), aes(x = year, y = country_jail_pop)) +
     geom_bar(stat = "identity") +
     ylim(0, 800000) +
     xlab("Year") +
     ylab("Total Jail Population") +
-    ggtitle("Increase of Jail Population in U.S. (1970-2018)") +
+    ggtitle("Increase of Jail Population in U.S. (1970-2018)") 
     
-  return(jail_pop_chart)   
+  return(pop_chart_jail)   
 } 
 
 plot_jail_pop_for_us()
@@ -103,17 +103,24 @@ get_jail_pop_by_states <- function(states) {
   selected_states_df <- incarceration_df %>% 
     filter(str_detect(state, states)) %>% 
     group_by(state, year) %>% 
-    summarize(state_jail_pop = sum(total_jail_pop, na.rm = TRUE))
+    summarize(state_jail_pop = sum(total_jail_pop, na.rm = TRUE)) %>% 
 
   return(selected_states_df)
 }
 
-df <- get_jail_pop_by_states(c("AL", "AK"))
 
 plot_jail_pop_by_states <-function(states) {
+  state_jail_chart <- ggplot(data = get_jail_pop_by_states(states), 
+                             aes(x = year, y = state_jail_pop, group = state)) +
+    geom_line(aes(color = state), linewidth = 1.5) +
+    ggtitle("Growth of U.S. Jail Population By State (1970-2018)") +
+    xlab("Year") +
+    ylab("Total Jail Population")
   
-  return()
+  return(state_jail_chart)
 }
+
+plot_jail_pop_by_states(c("WA", "CA", "FL", "NY", "UT", "SD", "TN"))
 
 ## Section 5  ---- 
 #----------------------------------------------------------------------------#
@@ -121,6 +128,27 @@ plot_jail_pop_by_states <-function(states) {
 # Your functions might go here ... <todo:  update comment>
 # See Canvas
 #----------------------------------------------------------------------------#
+get_female_rate_by_division <- function() {
+  female_rate_df <- incarceration_df %>% 
+    group_by(year, division) %>% 
+    summarize(female_rate = mean(female_prison_pop_rate, na.rm = TRUE))
+  
+  return(female_rate_df)
+}
+
+plot_female_rate_by_division <- function() {
+  region_prison_chart <- ggplot(data = get_female_rate_by_division(), 
+                                aes(x = year, y = female_rate, group = division)) +
+  geom_line(aes(color = division), linewidth = 1.2) +
+  xlim(1970, 2016) +
+  ggtitle("Female Prison Rate By Division (1970-2016)") +
+  xlab("Year") +
+  ylab("Female Prison Rate")
+  
+  return(region_prison_chart)
+}
+
+plot_female_rate_by_division()
 
 ## Section 6  ---- 
 #----------------------------------------------------------------------------#
@@ -128,6 +156,8 @@ plot_jail_pop_by_states <-function(states) {
 # Your functions might go here ... <todo:  update comment>
 # See Canvas
 #----------------------------------------------------------------------------#
+
+
 
 ## Load data frame ---- 
 
