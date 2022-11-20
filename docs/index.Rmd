@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r echo=FALSE, eval=TRUE, message=FALSE}
-source("../source/a4-helpers.R")
+source("~/info201/assignments/a4-Graydwarf77/source/a4-helpers.R")
 source("../source/analysis.R")
 ```
 
@@ -34,12 +34,21 @@ print(sum)
 ```
 
 ## Introduction 
-[TODO]
+
 
 ## Data Summary 
-[TODO]
 
-[TODO ... other sections ... See Canvas for details]
 
-_All the very best with your work!_
+## Growth of the US Prison Population 
+
+
+## Growth of Prison Populaton by State
+
+
+## Variable comparison that shows potential patterns of inequality
+
+
+## a map that shows potential patterns of ineqality that vary geographically
+
+
 

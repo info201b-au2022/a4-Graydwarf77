@@ -1,7 +1,13 @@
 library(tidyverse)
 
+
 # The functions might be useful for A4
-source("../source/a4-helpers.R")
+source("~/info201/assignments/a4-Graydwarf77/source/a4-helpers.R")
+incarceration_df <- get_data()
+
+View(incarceration_df)
+
+get_basic_info(incarceration_df)
 
 ## Test queries ----
 #----------------------------------------------------------------------------#
@@ -22,6 +28,13 @@ test_query2 <- function(num=6) {
 #----------------------------------------------------------------------------#
 # Your functions and variables might go here ... <todo: update comment>
 #----------------------------------------------------------------------------#
+all_counties_2016 <- incarceration_df %>% 
+  filter(year == 2016)
+
+avg_prison_rate_2016 <- round(mean(all_counties_2016$total_prison_pop_rate, na.rm = TRUE), 2)
+
+
+
 
 ## Section 3  ---- 
 #----------------------------------------------------------------------------#
