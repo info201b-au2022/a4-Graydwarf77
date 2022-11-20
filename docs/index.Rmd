@@ -7,7 +7,7 @@ output: html_document
 
 ```{r echo=FALSE, eval=TRUE, message=FALSE}
 source("~/info201/assignments/a4-Graydwarf77/source/a4-helpers.R")
-source("../source/analysis.R")
+source("~/info201/assignments/a4-Graydwarf77/source/analysis.R")
 ```
 
 ## Abstract 
