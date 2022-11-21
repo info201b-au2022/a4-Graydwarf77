@@ -1,5 +1,10 @@
 library(tidyverse)
+library(leaflet)
 
+# map data from https://simplemaps.com/data/us-counties
+map_data <- read.csv("C:/Users/Grayson/Documents/info201/data/uscounties.csv")
+
+map_data <- rename(map_data, fips = county_fips)
 
 # The functions might be useful for A4
 source("~/info201/assignments/a4-Graydwarf77/source/a4-helpers.R")
@@ -8,6 +13,8 @@ incarceration_df <- get_data()
 View(incarceration_df)
 
 get_basic_info(incarceration_df)
+
+state_data <- map_data("usa")
 
 ## Test queries ----
 #----------------------------------------------------------------------------#
@@ -30,6 +37,8 @@ test_query2 <- function(num=6) {
 #----------------------------------------------------------------------------#
 all_counties_2016 <- incarceration_df %>% 
   filter(year == 2016)
+
+all_counties_2016 <- left_join(all_counties_2016 , map_data, by = "fips")
 
 all_counties_1970 <- incarceration_df %>% 
   filter(year == 1970)
@@ -156,9 +165,30 @@ plot_female_rate_by_division()
 # Your functions might go here ... <todo:  update comment>
 # See Canvas
 #----------------------------------------------------------------------------#
+get_latinx_jail_rate_2016 <- function() {
+  latinx_jail_map_df <- all_counties_2016 %>% 
+    select(fips, state, county_name, latinx_jail_pop_rate, lat, lng) %>% 
+    mutate(radius = latinx_jail_pop_rate / )
+  
+  return(latinx_jail_map_df)
+}
 
+df <- get_latinx_jail_rate_2016()
 
+map_latinx_jail_rate_2016 <- function() {
+  leaflet(get_latinx_jail_rate_2016()) %>% 
+    addTiles() %>% 
+    addCircleMarkers(
+      lat = ~lat,
+      lng = ~lng,
+      popup = ~county_name,
+      stroke = FALSE,
+      radius = ~radius,
+      fillOpacity = 0.5
+    )
+}
+
+map_latinx_jail_rate_2016()
 
 ## Load data frame ---- 
-
 
