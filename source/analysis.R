@@ -10,12 +10,6 @@ map_data <- rename(map_data, fips = county_fips)
 source("~/info201/assignments/a4-Graydwarf77/source/a4-helpers.R")
 incarceration_df <- get_data()
 
-View(incarceration_df)
-
-get_basic_info(incarceration_df)
-
-state_data <- map_data("usa")
-
 ## Test queries ----
 #----------------------------------------------------------------------------#
 # Simple queries for basic testing
@@ -47,23 +41,15 @@ avg_prison_rate_1970 <- round(mean(all_counties_1970$total_prison_pop_rate, na.r
 
 avg_prison_rate_2016 <- round(mean(all_counties_2016$total_prison_pop_rate, na.rm = TRUE), 2)
 
-highest_black_prison_rate_2016 <- all_counties_2016 %>%  
-  filter(black_prison_pop_rate == max(black_prison_pop_rate, na.rm = TRUE)) %>% 
-  pull(black_prison_pop_rate)
+avg_black_prison_rate_2016 <- round(mean(all_counties_2016$black_prison_pop_rate, na.rm = TRUE), 2)
 
-highest_black_prison_rate_state_2016 <- all_counties_2016 %>%  
-  filter(black_prison_pop_rate == max(black_prison_pop_rate, na.rm = TRUE)) %>% 
-  pull(county_name)
+avg_white_prison_rate_2016 <- round(mean(all_counties_2016$white_prison_pop_rate, na.rm = TRUE), 2)
 
-highest_white_prison_rate_2016 <- all_counties_2016 %>% 
-  filter(white_prison_pop_rate == max(white_prison_pop_rate, na.rm = TRUE)) %>% 
-  pull(white_prison_pop_rate)
-
-avg_female_prison_rate_1970 <- all_counties_1970 %>% 
+highest_female_prison_rate_1970 <- all_counties_1970 %>% 
   filter(female_prison_pop_rate == max(female_prison_pop_rate, na.rm = TRUE)) %>% 
   pull(female_prison_pop_rate)
 
-avg_female_prison_rate_2016 <- all_counties_2016 %>% 
+highest_female_prison_rate_2016 <- all_counties_2016 %>% 
   filter(female_prison_pop_rate == max(female_prison_pop_rate, na.rm = TRUE)) %>% 
   pull(female_prison_pop_rate)
   
@@ -93,7 +79,8 @@ plot_jail_pop_for_us <- function()  {
     ylim(0, 800000) +
     xlab("Year") +
     ylab("Total Jail Population") +
-    ggtitle("Increase of Jail Population in U.S. (1970-2018)") 
+    ggtitle("Increase of Jail Population in U.S. (1970-2018)") +
+    scale_y_continuous(labels = function(x) format(x, scientific = FALSE))
     
   return(pop_chart_jail)   
 } 
@@ -117,7 +104,7 @@ get_jail_pop_by_states <- function(states) {
 plot_jail_pop_by_states <-function(states) {
   state_jail_chart <- ggplot(data = get_jail_pop_by_states(states), 
                              aes(x = year, y = state_jail_pop, group = state)) +
-    geom_line(aes(color = state), linewidth = 1.5) +
+    geom_line(aes(color = state), linewidth = .9) +
     ggtitle("Growth of U.S. Jail Population By State (1970-2018)") +
     xlab("Year") +
     ylab("Total Jail Population")
