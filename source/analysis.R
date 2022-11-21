@@ -86,8 +86,6 @@ get_year_jail_pop <- function() {
 
 }
 
-
-
 # This function ... <todo:  update comment>
 plot_jail_pop_for_us <- function()  {
   pop_chart_jail <- ggplot(data = get_year_jail_pop(), aes(x = year, y = country_jail_pop)) +
@@ -99,8 +97,6 @@ plot_jail_pop_for_us <- function()  {
     
   return(pop_chart_jail)   
 } 
-
-plot_jail_pop_for_us()
 
 ## Section 4  ---- 
 #----------------------------------------------------------------------------#
@@ -129,7 +125,6 @@ plot_jail_pop_by_states <-function(states) {
   return(state_jail_chart)
 }
 
-plot_jail_pop_by_states(c("WA", "CA", "FL", "NY", "UT", "SD", "TN"))
 
 ## Section 5  ---- 
 #----------------------------------------------------------------------------#
@@ -157,7 +152,7 @@ plot_female_rate_by_division <- function() {
   return(region_prison_chart)
 }
 
-plot_female_rate_by_division()
+
 
 ## Section 6  ---- 
 #----------------------------------------------------------------------------#
@@ -168,15 +163,13 @@ plot_female_rate_by_division()
 get_latinx_jail_rate_2016 <- function() {
   latinx_jail_map_df <- all_counties_2016 %>% 
     select(fips, state, county_name, latinx_jail_pop_rate, lat, lng) %>% 
-    mutate(radius = latinx_jail_pop_rate / )
+    mutate(radius = latinx_jail_pop_rate / mean(latinx_jail_pop_rate, na.rm = TRUE))
   
   return(latinx_jail_map_df)
 }
 
-df <- get_latinx_jail_rate_2016()
-
 map_latinx_jail_rate_2016 <- function() {
-  leaflet(get_latinx_jail_rate_2016()) %>% 
+  latinx_jail_map <- leaflet(get_latinx_jail_rate_2016()) %>% 
     addTiles() %>% 
     addCircleMarkers(
       lat = ~lat,
@@ -184,11 +177,10 @@ map_latinx_jail_rate_2016 <- function() {
       popup = ~county_name,
       stroke = FALSE,
       radius = ~radius,
-      fillOpacity = 0.5
+      fillOpacity = 0.2
     )
+  return(latinx_jail_map)
 }
-
-map_latinx_jail_rate_2016()
 
 ## Load data frame ---- 
 
