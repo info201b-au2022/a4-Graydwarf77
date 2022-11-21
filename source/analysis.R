@@ -1,7 +1,11 @@
 library(tidyverse)
 library(leaflet)
+library(lintr)
+
+lint(filename = "analysis.R")
 
 # map data from https://simplemaps.com/data/us-counties
+# map data being used to create map in section 6
 map_data <- read.csv("C:/Users/Grayson/Documents/info201/data/uscounties.csv")
 
 map_data <- rename(map_data, fips = county_fips)
@@ -17,7 +21,7 @@ incarceration_df <- get_data()
 # Return a simple string
 test_query1 <- function() {
   return ("Hello world")
-}
+ }
 
 # Return a vector of numbers
 test_query2 <- function(num=6) {
@@ -29,13 +33,17 @@ test_query2 <- function(num=6) {
 #----------------------------------------------------------------------------#
 # Your functions and variables might go here ... <todo: update comment>
 #----------------------------------------------------------------------------#
+
+# Filters counties by years so more specific analysis can be done
 all_counties_2016 <- incarceration_df %>% 
   filter(year == 2016)
 
-all_counties_2016 <- left_join(all_counties_2016 , map_data, by = "fips")
+all_counties_2016 <- left_join(all_counties_2016, map_data, by = "fips")
 
 all_counties_1970 <- incarceration_df %>% 
   filter(year == 1970)
+
+# calculating summary values for section 2
 
 avg_prison_rate_1970 <- round(mean(all_counties_1970$total_prison_pop_rate, na.rm = TRUE), 2)
 
@@ -57,10 +65,10 @@ highest_female_prison_rate_2016 <- all_counties_2016 %>%
 ## Section 3  ---- 
 #----------------------------------------------------------------------------#
 # Growth of the U.S. Prison Population
-# Your functions might go here ... <todo:  update comment>
 #----------------------------------------------------------------------------#
 
-# This function ... <todo:  update comment>
+# This function gets the total jail population of 
+# the US for every year in the dataset
 
 
 get_year_jail_pop <- function() {
@@ -72,9 +80,10 @@ get_year_jail_pop <- function() {
 
 }
 
-# This function ... <todo:  update comment>
+# This function creates a bar chart that displays data from the previous function
 plot_jail_pop_for_us <- function()  {
-  pop_chart_jail <- ggplot(data = get_year_jail_pop(), aes(x = year, y = country_jail_pop)) +
+  pop_chart_jail <- ggplot(data = get_year_jail_pop(), a
+                           es(x = year, y = country_jail_pop)) +
     geom_bar(stat = "identity") +
     ylim(0, 800000) +
     xlab("Year") +
@@ -88,9 +97,11 @@ plot_jail_pop_for_us <- function()  {
 ## Section 4  ---- 
 #----------------------------------------------------------------------------#
 # Growth of Prison Population by State 
-# Your functions might go here ... <todo:  update comment>
 # See Canvas
 #----------------------------------------------------------------------------#
+
+# This function filters the data by the inputted states and 
+# calculates their total jail population for each state by year.
 get_jail_pop_by_states <- function(states) {
   selected_states_df <- incarceration_df %>% 
     filter(str_detect(state, states)) %>% 
@@ -100,7 +111,8 @@ get_jail_pop_by_states <- function(states) {
   return(selected_states_df)
 }
 
-
+# This function creates a line chart that displays data from the previous function 
+# once again based on the states inputted.
 plot_jail_pop_by_states <-function(states) {
   state_jail_chart <- ggplot(data = get_jail_pop_by_states(states), 
                              aes(x = year, y = state_jail_pop, group = state)) +
@@ -116,9 +128,11 @@ plot_jail_pop_by_states <-function(states) {
 ## Section 5  ---- 
 #----------------------------------------------------------------------------#
 # <variable comparison that reveals potential patterns of inequality>
-# Your functions might go here ... <todo:  update comment>
 # See Canvas
 #----------------------------------------------------------------------------#
+
+# This function retrieves female rates of incarceration 
+# grouped by geographical division
 get_female_rate_by_division <- function() {
   female_rate_df <- incarceration_df %>% 
     group_by(year, division) %>% 
@@ -127,6 +141,8 @@ get_female_rate_by_division <- function() {
   return(female_rate_df)
 }
 
+# This function produces a line chart using the data retrieved 
+# from the previous function
 plot_female_rate_by_division <- function() {
   region_prison_chart <- ggplot(data = get_female_rate_by_division(), 
                                 aes(x = year, y = female_rate, group = division)) +
@@ -144,9 +160,11 @@ plot_female_rate_by_division <- function() {
 ## Section 6  ---- 
 #----------------------------------------------------------------------------#
 # <a map shows potential patterns of inequality that vary geographically>
-# Your functions might go here ... <todo:  update comment>
 # See Canvas
 #----------------------------------------------------------------------------#
+
+# This function creates a data frame that is wrangled to be used effectively
+# in a map
 get_latinx_jail_rate_2016 <- function() {
   latinx_jail_map_df <- all_counties_2016 %>% 
     select(fips, state, county_name, latinx_jail_pop_rate, lat, lng) %>% 
@@ -155,6 +173,8 @@ get_latinx_jail_rate_2016 <- function() {
   return(latinx_jail_map_df)
 }
 
+# This function uses the data frame produced by the previous function to 
+# create an interactive map
 map_latinx_jail_rate_2016 <- function() {
   latinx_jail_map <- leaflet(get_latinx_jail_rate_2016()) %>% 
     addTiles() %>% 

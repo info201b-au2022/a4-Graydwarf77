@@ -11,13 +11,13 @@ source("~/info201/assignments/a4-Graydwarf77/source/analysis.R")
 ```
 
 ## Abstract 
-[TODO: Include a short abstract (about 50 words)]
+An analysis of incarceration rates in the United States and how they have changed since 1970. Throughout the report, makes observations about the general trend of jail populations in the United states, as well as people groups that are most targeted by the prison system.
 
 ## Introduction 
 According to researchers at the Vera Institute, the number of people in jail has gone from 157,000 in 1970 to 690,000 in 2014, a four times increase (Subramanian et al., 2015). Furthermore, minority groups are generally incarcerated at a much higher rate than white people, especially black people. These facts show that the U.S. prison system is now being used as a means of upholding and empowering systems of oppression across the United States. Millions of people are left vulnerable by a system that disproportionately punishes minority groups, destabilizing countless families and communities. Direct stakeholders in this dataset include the researchers who created this data set, as well as researchers and other individuals who have used this data to do their own analysis or further research such as me. The indirect stakeholders include the many people who have been put in jail or incarcerated as well as their families who have come to make up this data. It is especially important that researchers remember that there is a person behind every piece of data in this research, so it is important to treat them with the respect they deserve. Throughout the report, I will answer questions related to how the US prison population has grown since 1970, how female prison rates have increased in various regions of the United States, and where Latinx jailing rates are the highest.
 
 ## Data Summary 
-Note: Whenever the word _**rate**_ is used to describe a statistic, it is the rate per 100,000 people.
+Note: Whenever the word _**rate**_ is used to describe a statistic in the report, it is the rate per 100,000 people.
 
 In 1970, the average prison rate across the United States was `r avg_prison_rate_1970`. In 2016, the most recent year with reasonably complete data, that rate has ballooned to `r avg_prison_rate_2016`. This nearly three-fold increase shows how the prison system has been weaponized to harm vulnerable communities, and the problem has only been getting worse. But, where does inequality come into the prison system? Well, in 2016 the average prison rate for black people across the United states was `r avg_black_prison_rate_2016`, whereas the average prison rate for white people was `r avg_white_prison_rate_2016`. In 2016 black people were incarcerated at over four times the rate of white people, displaying a severe pattern of inequality. Other vulnerable groups are being targeted by the prison system as well. In 1970, the highest prison rate for women in any county was `r highest_female_prison_rate_1970`. In 2016 that number was `r highest_female_prison_rate_2016`, another massive increase. Women, another group that is often mistreated in the United States, are at a much higher risk of incarceration than they were 50 years ago. Overall, vulnerable people groups are at an even greater risk of being mistreated by an unequal prison system than they were in 1970, which shows reform is severly needed in the United states prison system. 
 
@@ -34,12 +34,22 @@ How has the jail population in the United States increased since 1970? An obviou
 plot_jail_pop_by_states(c("OR", "GA", "NY", "CO", "AZ"))
 ```
 
-How has the jail population grown in the United States in these selected states? 
+How has the jail population grown in the United States in these selected states? The overall prison population has risen steadily in each of theses states, which is consistent from what was learned in the previous section. It seems that jail populations rise and fall rather drastically every few years, which gives the graph a jagged shape. New York has had the highest overall jail population, which make sense because it is the largest state in the graph. These states were chosen to try and get as much of a geographical spread of the U.S. as possible while also having variety in the population of states.
 
-## How Have Female Incarceration Rates Increased by U.S. Divison?
+## How Have Female Incarceration Rates Changed by U.S. Divison?
+```{r fig.cap="Figure 3. A line graph displaying how female incarceration rates have changed based on their geographical division.", echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE}
+plot_female_rate_by_division()
+```
 
+How do the changes in female incarceration rates compare by geographical division? Once again, it can be seen that incarceration rates have risen overall for females since 1970. The most significant increase of incarceration rates has occurred in the "West South Central" region, which includes the states Texas, Oklahoma, Louisiana, and Arkansas. The "East South Central" region, which includes Mississippi, Alabama, Kentucky, and Tennessee, has also experienced notable growth. This graph shows that these two regions, which are right next to each other, have a noticeably higher level of female incarceration rates. This is especially concerning as the ACLU has reported "40% of criminal convictions leading to incarceration of women in 2000 were for drug crimes" and that "34% were for other non-violent crimes such as burglary, larceny, and fraud", meaning that many of these women were incarcerated for nonviolent offences (Facts About, n.d.).
 
-## Where Are Latinx Jail Rates the Highest?
+## Where Are Latinx Jail Rates the Highest in the U.S.?
+```{r echo=FALSE, eval=TRUE, message=FALSE, warning=FALSE, fig.cap="Figure 4. A map displaying the United States that shows what counties in the United States have the highest Latinx jail rates."}
+map_latinx_jail_rate_2016()
+```
+
+What counties in the United States have the highest Latinx jail rates? The map reveals that the highest Latinx jail rates are concentrated generally in the Southern United States, in states such as Florida, Texas, Louisiana, and Georgia. It is important to note that some of those states were also in regions of high female incarceration rates, pointing to a possible pattern of inequality. Another noticeable trend that can be seen in the map is that much of the Northern U.S. has very low rates of Latinx incarceration, at least in 2016. Furthermore, 2016 was chosen to observe because it was the most recent year with reasonably complete data.
+
 
 ## Refrences
 Facts about the Over-Incarceration of Women in the United States [Fact sheet]. (n.d.). American Civil Liberties Union. https://www.aclu.org/other/facts-about-over-incarceration-women-united-states
